@@ -8,17 +8,17 @@ import com.example.week3.service.book.IBookService;
 import com.example.week3.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin("*")
@@ -54,10 +54,22 @@ public class BookController {
 //        modelAndView.addObject("books",bookService.findAll());
 //        return  modelAndView;
 //    }
+//    @GetMapping
+//    public ResponseEntity<Iterable<Book>> listBooks() {
+////        List<Book> bookList = (List<Book>) bookService.findAll();
+//        return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<Iterable<Book>> listBooks() {
+    public ResponseEntity<Page<Book>> listBooks(@RequestParam(name="q") Optional<String> q, @PageableDefault(value = 3) Pageable pageable  ) {
 //        List<Book> bookList = (List<Book>) bookService.findAll();
-        return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
+        Page<Book> books;
+        if (!q.isPresent()) {
+            books = bookService.findAll(pageable);
+        } else {
+            books = bookService.findAllByNameContaining(q.get(), pageable);
+        }
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @PostMapping
@@ -117,4 +129,10 @@ public class BookController {
     public ResponseEntity<Book> findOne(@PathVariable Long id) {
         return new ResponseEntity<>(bookService.findById(id).get(), HttpStatus.OK);
     }
+
+//    @GetMapping("/category/{id}")
+//    public ResponseEntity<Page<Book>> findByCategory(@PathVariable Long id, @PageableDefault(value = 4) Pageable pageable) {
+//        Page<Book> books = bookService.findByCategory(id, pageable);
+//        return new ResponseEntity<>(books, HttpStatus.OK);
+//    }
 }

@@ -2,6 +2,7 @@ package com.example.week3.service.book;
 
 
 import com.example.week3.model.Book;
+import com.example.week3.model.Category;
 import com.example.week3.repository.IBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,12 +37,18 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Page<Book> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable);
+    public Iterable<Book> findAllByCategory(Category category) {
+        return bookRepository.findAllByCategory(category);
     }
 
     @Override
-    public Page<Book> findAllByFirstNameContaining(String name, Pageable pageable) {
-        return bookRepository.findAllByFirstNameContaining(name,pageable);
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+
+    }
+
+    @Override
+    public Page<Book> findAllByNameContaining(String name, Pageable pageable) {
+        return bookRepository.findAllByNameContaining(name, pageable);
     }
 }
