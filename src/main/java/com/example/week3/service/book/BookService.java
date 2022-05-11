@@ -4,6 +4,8 @@ package com.example.week3.service.book;
 import com.example.week3.model.Book;
 import com.example.week3.repository.IBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -31,5 +33,15 @@ public class BookService implements IBookService {
     @Override
     public void remove(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Book> findAllByFirstNameContaining(String name, Pageable pageable) {
+        return bookRepository.findAllByFirstNameContaining(name,pageable);
     }
 }

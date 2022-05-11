@@ -88,13 +88,13 @@ public class BookController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Book> findBook(@PathVariable Long id) {
-
-        Optional<Book> bookOptional = bookService.findById(id);
-
-        return new ResponseEntity<>(bookOptional.get(), HttpStatus.OK);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Book> findBook(@PathVariable Long id) {
+//
+//        Optional<Book> bookOptional = bookService.findById(id);
+//
+//        return new ResponseEntity<>(bookOptional.get(), HttpStatus.OK);
+//    }
 
     @PostMapping("/edit/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @ModelAttribute BookForm bookForm) {
@@ -113,8 +113,8 @@ public class BookController {
         return new ResponseEntity<>(existBook, HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Book> findOne(@PathVariable Long id) {
-//        return new ResponseEntity<>(bookService.findById(id).get(), HttpStatus.OK);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> findOne(@PathVariable Long id) {
+        return new ResponseEntity<>(bookService.findById(id).get(), HttpStatus.OK);
+    }
 }

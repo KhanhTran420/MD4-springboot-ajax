@@ -23,11 +23,13 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public void save(Category category) {
+        categoryRepository.save(category);
 
     }
 
     @Override
     public void remove(Long id) {
+        categoryRepository.deleteById(id);
 
     }
 }
